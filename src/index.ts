@@ -35,15 +35,13 @@ async function init() {
     context: (ctx) => {
       console.log(ctx);
     },
-    plugins: [
-      process.env.NODE_ENV === 'production'
-        ? ApolloServerPluginLandingPageProductionDefault()
-        : ApolloServerPluginLandingPageGraphQLPlayground()
-    ]
+    plugins: [ ApolloServerPluginLandingPageGraphQLPlayground()]
   });
 
   await server.start();
   server.applyMiddleware({ app });
+
+  app.use()
 
   app.use(
     '/graphql',
