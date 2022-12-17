@@ -41,18 +41,10 @@ async function init() {
   await server.start();
   server.applyMiddleware({ app });
 
-  app.use()
-
   app.use(
     '/graphql',
     cors<cors.CorsRequest>({
-      origin:  function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-          callback(null, true)
-        } else {
-          callback(new Error('Not allowed by CORS'))
-        }
-      }
+      origin:  whitelist
     
     }),
     express.json()
