@@ -7,7 +7,7 @@ export class Todo {
   _id: string;
 
   @Field(() => String)
-  @prop({ required: true })
+  @prop()
   id: string;
 
   @Field(() => Number, { nullable: true })
@@ -45,4 +45,10 @@ export class CreateTodoInput {
 
   @Field(() => Boolean, { nullable: true })
   isCompleted: boolean;
+}
+
+@InputType()
+export class DeleteTodoInput{
+  @Field(() => String)
+  id: string;
 }

@@ -4,9 +4,9 @@ import express from 'express';
 import { buildSchema } from 'type-graphql';
 import cookieParser from 'cookie-parser';
 import { ApolloServer } from 'apollo-server-express';
+import path from 'path'
 import {
   ApolloServerPluginLandingPageGraphQLPlayground,
-  ApolloServerPluginLandingPageProductionDefault
 } from 'apollo-server-core';
 import cors from 'cors';
 
@@ -40,15 +40,20 @@ async function init() {
 
   await server.start();
   server.applyMiddleware({ app });
+  
+ 
 
   app.use(
     '/graphql',
     cors<cors.CorsRequest>({
       origin:  whitelist
-    
     }),
     express.json()
   );
+
+  app.use('/',(req, res)=>{
+    res.sendFile(path.join(__dirname, './index.html'))
+  })
 
   app.listen({ port: process.env.PORT }, () => {
     console.log(`App is listening on https://localhost:${process.env.PORT}`);

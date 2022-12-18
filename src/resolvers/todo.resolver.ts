@@ -1,6 +1,7 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { Todo, CreateTodoInput } from '../schema/todo.schema';
+import { Arg, Mutation, Query, Resolver, Ctx } from 'type-graphql';
+import { Todo, CreateTodoInput, DeleteTodoInput } from '../schema/todo.schema';
 import TodoService from '../service/todo.service';
+import { ContextType } from '../type/context';
 
 @Resolver()
 export default class TodoResolver {
@@ -10,17 +11,22 @@ export default class TodoResolver {
 
   @Mutation(() => Todo)
   createTodo(@Arg('input') input: CreateTodoInput) {
+    console.log({inputData__: input});
     return this.todoService.createTodo(input);
   }
 
-  @Query(() => Todo)
-  getTodo() {
-    return {
-      id: 'todo-1',
-      duration: 2,
-      createdOn: Date.now(),
-      description: 'Get on call with your lead to solve UI problems',
-      isCompleted: false
-    };
+  @Mutation(()=>Todo)
+  updateTodoState(@Arg('input') input: CreateTodoInput){
+    return this.todoService.updateTodoState(input)
+  }
+
+  @Mutation(()=> Number)
+  deleteTodo(@Arg('input') input: DeleteTodoInput){
+    return this.todoService.deleteTodo(input.id)
+  }
+
+  @Query(() => [Todo], {nullable: true})
+  getTodo( @Ctx() context: ContextType) {
+    return this.todoService.getTodo({context})
   }
 }
