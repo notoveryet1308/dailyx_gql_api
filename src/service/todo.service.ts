@@ -10,7 +10,7 @@ class TodoService {
   async getTodo({ context}:{ context: ContextType}){
     try{
    
-      const allTodo = await TodoModel.find()
+      const allTodo = await TodoModel.find().sort('filed isCompleted')
       return allTodo
       
     }catch(e){
@@ -30,11 +30,9 @@ class TodoService {
     return updatedTodo
   }
 
-  async deleteTodo(id?: string){
+  async deleteTodo(id: string){
    try {
-    if(!id){
-      return await TodoModel.deleteMany({})
-    }
+   
     const deletedTodo = await TodoModel.deleteOne({id: id})
     
     return deletedTodo.deletedCount
