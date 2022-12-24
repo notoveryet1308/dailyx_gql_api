@@ -10,19 +10,18 @@ export default class TodoResolver {
   }
 
   @Mutation(() => Todo)
-  createTodo(@Arg('input') input: CreateTodoInput) {
-    console.log({inputData__: input});
-    return this.todoService.createTodo(input);
+  createTodo(@Arg('input') input: CreateTodoInput, @Ctx() context: ContextType) {
+    return this.todoService.createTodo(input, context);
   }
 
   @Mutation(()=>Todo)
-  updateTodoState(@Arg('input') input: CreateTodoInput){
-    return this.todoService.updateTodoState(input)
+  updateTodoState(@Arg('input') input: CreateTodoInput, @Ctx() context: ContextType){
+    return this.todoService.updateTodoState(input, context)
   }
 
   @Mutation(()=> Number)
-  deleteTodo(@Arg('input') input: DeleteTodoInput){
-    return this.todoService.deleteTodo(input.id)
+  deleteTodo(@Arg('input') input: DeleteTodoInput, @Ctx() context: ContextType){
+    return this.todoService.deleteTodo(input.id, context)
   }
 
   @Query(() => [Todo], {nullable: true})

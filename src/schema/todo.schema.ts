@@ -4,6 +4,7 @@ import { getModelForClass, prop } from '@typegoose/typegoose';
 @ObjectType()
 export class Todo {
   @Field(() => String)
+  @prop()
   _id: string;
 
   @Field(() => String)
@@ -25,6 +26,10 @@ export class Todo {
   @Field(() => Boolean)
   @prop({ default: false })
   isCompleted: boolean;
+
+  @Field(()=> String)
+  @prop({required: true})
+  userId: string
 }
 
 export const TodoModel = getModelForClass(Todo);

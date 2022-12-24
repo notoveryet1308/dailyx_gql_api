@@ -12,16 +12,16 @@ const privateKey =  Buffer.from(
   'base64'
 ).toString('ascii');
 
+
 export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
   const token = jwt.sign(object, privateKey, {
     ...(options && options),
     algorithm: 'RS256'
   });
-  console.log({ args: object, token });
   return token;
 }
 
-export function verifyJwt<T>(token: string): T {
+export function verifyJwt<T>(token: string): T | null{
   try {
     const decoded = jwt.verify(token, publicKey) as T;
     return decoded;

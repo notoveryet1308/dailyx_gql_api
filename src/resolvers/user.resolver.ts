@@ -9,7 +9,7 @@ export class UserResolver {
     this.userService = new UserService();
   }
 
-  @Mutation(() => User)
+  @Mutation(() => String)
   createUser(@Arg('input') input: CreateUserInput) {
     return this.userService.createUser(input);
   }
@@ -19,12 +19,8 @@ export class UserResolver {
     return this.userService.login(input, context);
   }
 
-  @Query(() => User)
-  getUser() {
-    return {
-      id: 'hxh',
-      email: 'rahulraz1308@gmail.com',
-      password: '000000'
-    };
+  @Query(() => User, {nullable: true})
+  getCurrentLoggedInUser(@Ctx() context: ContextType) {
+    return context.user;
   }
 }

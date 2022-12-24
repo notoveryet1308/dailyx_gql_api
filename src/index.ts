@@ -10,8 +10,11 @@ import {
 } from 'apollo-server-core';
 import cors from 'cors';
 
+import { User } from "./schema/user.schema";
+import { ContextType } from './type/context';
 import { resolvers } from './resolvers';
 import { connectToMongoDB } from './utils/mongo';
+import {verifyJwt} from './utils/jwt'
 
 dotenv.config();
 
@@ -27,22 +30,26 @@ async function init() {
   });
 
   const app = express();
-
   app.use(cookieParser());
 
   const server = new ApolloServer({
     schema,
-    context: (ctx) => {
-      console.log(ctx);
+    context: (ctx: ContextType) => {
+        const context = ctx;
+  
+        const token = ctx.req.headers.authorization?.split(' ')[1]
+        if (token) {
+          const user = verifyJwt<User>(token);
+          context.user = user;
+        }
+      return context;
     },
+    
     plugins: [ ApolloServerPluginLandingPageGraphQLPlayground()]
   });
 
   await server.start();
   server.applyMiddleware({ app });
-  
- 
-
   app.use(
     '/graphql',
     cors<cors.CorsRequest>({

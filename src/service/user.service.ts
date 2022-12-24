@@ -3,11 +3,13 @@ import bcrypt from 'bcrypt';
 
 import { CreateUserInput, LoginInput, UserModel } from '../schema/user.schema';
 import { ContextType } from '../type/context';
-import { signJwt, verifyJwt } from '../utils/jwt';
+import { signJwt } from '../utils/jwt';
 
 export class UserService {
   async createUser(input: CreateUserInput) {
-    return UserModel.create(input);
+   const user = await UserModel.create(input);
+   const token = signJwt(user)
+   return token
   }
 
   async login(input: LoginInput, context: ContextType) {
@@ -23,18 +25,6 @@ export class UserService {
     }
 
     const token = signJwt(user);
-    console.log({ token });
-
-    // set a cookies for the jwt
-    context.res.cookie('accessToken', token, {
-      maxAge: 3.154e10,
-      httpOnly: true,
-      domain: '*',
-      path: '/',
-      sameSite: 'none',
-      secure: process.env.NODE_ENV === 'production'
-    });
-
     return token;
   }
 }

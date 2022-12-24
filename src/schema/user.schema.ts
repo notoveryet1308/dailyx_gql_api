@@ -35,7 +35,7 @@ import {
   export class User {
     @Field(() => String)
     @prop()
-    id: string;
+    _id: string;
   
     @Field(() => String)
     @prop({ required: true })
@@ -68,9 +68,7 @@ import {
   
   @InputType()
   export class CreateUserInput {
-    @Field(() => String)
-    id: string;
-  
+
     @IsEmail()
     @Field(() => String)
     email: string;
