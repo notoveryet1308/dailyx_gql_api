@@ -26,7 +26,7 @@ export class UserService {
     const e = 'Invalid email or password';
     const user = await UserModel.find().findByEmail(input.email).lean();
     if (!user) {
-      throw new ApolloError(e);
+      throw new ApolloError('user does not exits');
     }
 
     const passwordIsVaild = await bcrypt.compare(input.password, user.password);
