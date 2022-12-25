@@ -39,9 +39,7 @@ class TodoService {
       return
     }
  
-    const updatedTodo =  await TodoModel.findOneAndUpdate({id: todo.id}, {...todo})
-    console.log({updatedTodo, todo});
-    
+    const updatedTodo =  await TodoModel.findOneAndUpdate({id: todo.id}, {...todo})    
     return updatedTodo
   }
 

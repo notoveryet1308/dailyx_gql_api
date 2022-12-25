@@ -33,6 +33,10 @@ import {
   @queryMethod(findByEmail)
   @ObjectType()
   export class User {
+
+    @Field(() => String)
+    _id: string;
+
     @Field(() => String)
     @prop({ required: true })
     email: string;

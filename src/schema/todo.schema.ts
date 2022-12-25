@@ -4,7 +4,6 @@ import { getModelForClass, prop } from '@typegoose/typegoose';
 @ObjectType()
 export class Todo {
   @Field(() => String)
-  @prop()
   _id: string;
 
   @Field(() => String)
