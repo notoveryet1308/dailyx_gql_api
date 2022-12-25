@@ -34,10 +34,6 @@ import {
   @ObjectType()
   export class User {
     @Field(() => String)
-    @prop()
-    _id: string;
-  
-    @Field(() => String)
     @prop({ required: true })
     email: string;
   
@@ -64,6 +60,15 @@ import {
     @Field(() => String, { nullable: true })
     @prop()
     avatar: string;
+  }
+
+  @ObjectType()
+  export class AuthPayload {
+    @Field(()=> String)
+    token: string
+
+    @Field(()=> User)
+    user: User
   }
   
   @InputType()

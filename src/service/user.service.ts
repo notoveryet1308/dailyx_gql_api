@@ -7,9 +7,19 @@ import { signJwt } from '../utils/jwt';
 
 export class UserService {
   async createUser(input: CreateUserInput) {
-   const user = await UserModel.create(input);
-   const token = signJwt(user)
-   return token
+
+   try{
+    const isUserExits = await UserModel.findOne({email: input.email});
+    if(isUserExits){
+      throw new ApolloError('User can not be created')
+    }
+    const user = await UserModel.create(input);
+    const token = signJwt(user.toObject())
+    return {token, user}
+    
+   }catch(e){
+    throw new ApolloError(e);
+   }
   }
 
   async login(input: LoginInput, context: ContextType) {
