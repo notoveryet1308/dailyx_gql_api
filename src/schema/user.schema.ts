@@ -91,14 +91,8 @@ import {
     @Field(() => String)
     password: string;
   
-    @Field(() => String, { nullable: true })
+    @Field(() => String)
     name: string;
-  
-    @Field(() => String, { nullable: true })
-    middleName: string;
-  
-    @Field(() => String, { nullable: true })
-    lastName: string;
   
     @Field(() => String, { nullable: true })
     profession: string;
