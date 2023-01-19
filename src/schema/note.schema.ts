@@ -2,7 +2,7 @@ import { Field, InputType, ObjectType } from 'type-graphql';
 import { getModelForClass, prop } from '@typegoose/typegoose';
 
 @ObjectType()
-export class Todo {
+export class Note {
   @Field(() => String)
   _id: string;
 
@@ -10,12 +10,12 @@ export class Todo {
   @prop()
   id: string;
 
-  @Field(() => Number, { nullable: true })
+  @Field(() => String, { nullable: true })
   @prop()
-  duration: number;
-
+  title: string;
+  
   @Field(() => String)
-  @prop({ required: true })
+  @prop()
   description: string;
 
   @Field(() => Number, { nullable: true })
@@ -25,42 +25,47 @@ export class Todo {
   @Field(() => Number, { nullable: true })
   @prop({ default: Date.now() })
   updatedOn: number;
-
-  @Field(() => Boolean)
-  @prop({ default: false })
-  isCompleted: boolean;
 
   @Field(()=> String)
   @prop({required: true})
-  userId: string
+  userId: string;
+
+  @Field(()=> Boolean)
+  @prop({default: false})
+  isPinned: string;
+
+  @Field(()=> [String], {nullable: true})
+  @prop()
+  tags: [string]
+  
 }
 
-export const TodoModel = getModelForClass(Todo);
 
 @InputType()
-export class CreateTodoInput {
+export class CreateNoteInput {
   @Field(() => String)
   id: string;
 
-  @Field(() => Number, { nullable: true })
-  duration: number;
-
+  @Field(() => String, { nullable: true })
+  title: string;
+  
   @Field(() => String)
   description: string;
 
   @Field(() => Number, { nullable: true })
   createdOn: number;
 
-  @Field(() => Boolean, { nullable: true })
-  isCompleted: boolean;
-
   @Field(() => Number, { nullable: true })
-  @prop()
   updatedOn: number;
+
+  @Field(()=> String)
+  userId: string;
+
+  @Field(()=> Boolean)
+  isPinned: string;
+
+  @Field(()=> [String],{nullable: true})
+  tags: [string]
 }
 
-@InputType()
-export class DeleteTodoInput{
-  @Field(() => String)
-  id: string;
-}
+export const NoteModel = getModelForClass(Note);
