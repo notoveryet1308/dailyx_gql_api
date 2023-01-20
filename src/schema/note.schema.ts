@@ -37,6 +37,11 @@ export class Note {
   @Field(()=> [String], {nullable: true})
   @prop()
   tags: [string]
+
+  @Field(()=> String)
+  @prop({required: true})
+  hexCode: string;
+
   
 }
 
@@ -65,7 +70,17 @@ export class CreateNoteInput {
   isPinned: string;
 
   @Field(()=> [String],{nullable: true})
-  tags: [string]
+  tags: [string];
+
+  @Field(()=> String)
+  hexCode: string;
+
+}
+
+@InputType()
+export class DeleteNoteInput{
+  @Field(() => String)
+  id: string;
 }
 
 export const NoteModel = getModelForClass(Note);

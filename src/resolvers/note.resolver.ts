@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver, Ctx } from 'type-graphql';
-import { Note, CreateNoteInput } from '../schema/note.schema';
+import { Note, CreateNoteInput, DeleteNoteInput } from '../schema/note.schema';
 import NoteService from '../service/note.service';
 import { ContextType } from '../type/context';
 
@@ -19,15 +19,14 @@ export default class NoteResolver {
     return this.noteService.getNote({context})
   }
 
-//   @Mutation(()=>Note)
-//   updateTodoState(@Arg('input') input: CreateTodoInput, @Ctx() context: ContextType){
-//     return this.noteService.updateTodoState(input, context)
-//   }
+  @Mutation(()=>Note)
+  updateNote(@Arg('input') input: CreateNoteInput){
+    return this.noteService.updateNote(input)
+  }
 
-//   @Mutation(()=> Number)
-//   deleteTodo(@Arg('input') input: DeleteTodoInput, @Ctx() context: ContextType){
-//     return this.noteService.deleteTodo(input.id, context)
-//   }
+  @Mutation(()=> Boolean)
+  deleteNote(@Arg('input') input: DeleteNoteInput, @Ctx() context: ContextType){
+    return this.noteService.deleteNote(input.id, context)
+  }
 
- 
 }

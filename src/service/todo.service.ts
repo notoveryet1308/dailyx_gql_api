@@ -34,15 +34,18 @@ class TodoService {
     
   }
 
-  async updateTodoState(todo: CreateTodoInput, context: ContextType){
-    if(!todo){
-      return
+  async updateTodoState(todo: CreateTodoInput){
+    try {
+      if(!todo){
+        return
+      }
+   
+      let updatedTodo =  await TodoModel.findOneAndUpdate({id: todo.id}, {...todo})   
+      updatedTodo = await TodoModel.findOne({id: todo.id})
+      return updatedTodo
+    } catch (error) {
+      throw new ApolloError('Error in updating todo data')
     }
- 
-    let updatedTodo =  await TodoModel.findOneAndUpdate({id: todo.id}, {...todo})   
-    updatedTodo = await TodoModel.findOne({id: todo.id})
-    console.log(updatedTodo)
-    return updatedTodo
   }
 
   async deleteTodo(id: string, context: ContextType){
@@ -54,7 +57,7 @@ class TodoService {
       }
     const deletedTodo = await TodoModel.deleteOne({id: id})
     
-    return deletedTodo.deletedCount
+    return !!deletedTodo.deletedCount
    } catch (error) {
     throw new ApolloError('Error in deleting todo data')
    }

@@ -34,6 +34,35 @@ class NoteService {
         }
         
     }
+
+    async updateNote(note: CreateNoteInput){
+     try {
+      if(!note){
+        return
+      }
+   
+      let updatedNote =  await NoteModel.findOneAndUpdate({id: note.id}, {...note})   
+      updatedNote = await NoteModel.findOne({id: note.id})
+      return updatedNote
+     } catch (error) {
+      throw new ApolloError('Error in updating note data')
+     }
+    }
+
+    async deleteNote(id: string, context: ContextType){
+      try {
+      
+       const user = context.user
+         if(!user){
+           throw new ApolloError('Action not allowed!!')
+         }
+       const deletedNote = await NoteModel.deleteOne({id: id})
+       
+       return !!deletedNote.deletedCount
+      } catch (error) {
+       throw new ApolloError('Error in deleting note data')
+      }
+     }
 }
 
 export default NoteService;

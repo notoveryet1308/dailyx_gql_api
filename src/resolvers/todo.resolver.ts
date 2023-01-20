@@ -15,11 +15,11 @@ export default class TodoResolver {
   }
 
   @Mutation(()=>Todo)
-  updateTodoState(@Arg('input') input: CreateTodoInput, @Ctx() context: ContextType){
-    return this.todoService.updateTodoState(input, context)
+  updateTodoState(@Arg('input') input: CreateTodoInput){
+    return this.todoService.updateTodoState(input)
   }
 
-  @Mutation(()=> Number)
+  @Mutation(()=> Boolean)
   deleteTodo(@Arg('input') input: DeleteTodoInput, @Ctx() context: ContextType){
     return this.todoService.deleteTodo(input.id, context)
   }
