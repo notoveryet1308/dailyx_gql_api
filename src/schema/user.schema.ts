@@ -34,8 +34,7 @@ import {
   @ObjectType()
   export class User {
 
-    @Field(() => String)
-    _id: string;
+    readonly _id: string;
 
     @Field(() => String)
     @prop({ required: true })

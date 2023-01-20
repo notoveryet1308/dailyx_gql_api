@@ -1,12 +1,12 @@
-import { Field, InputType, ObjectType } from 'type-graphql';
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
 import { getModelForClass, prop } from '@typegoose/typegoose';
 
 @ObjectType()
 export class Todo {
-  @Field(() => String)
-  _id: string;
 
-  @Field(() => String)
+  readonly _id: string;
+
+  @Field(() => ID)
   @prop()
   id: string;
 
@@ -30,7 +30,7 @@ export class Todo {
   @prop({ default: false })
   isCompleted: boolean;
 
-  @Field(()=> String)
+  @Field(() => String)
   @prop({required: true})
   userId: string
 }

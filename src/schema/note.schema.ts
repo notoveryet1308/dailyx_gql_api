@@ -1,44 +1,46 @@
-import { Field, InputType, ObjectType } from 'type-graphql';
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
 import { getModelForClass, prop } from '@typegoose/typegoose';
+import { Tag, CreateTagInput } from './tag.schema';
+
 
 @ObjectType()
 export class Note {
-  @Field(() => String)
-  _id: string;
 
-  @Field(() => String)
+  readonly _id: string;
+
+  @Field(() => ID)
   @prop()
   id: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(()  => String, { nullable: true })
   @prop()
   title: string;
   
-  @Field(() => String)
+  @Field(()  => String)
   @prop()
   description: string;
 
-  @Field(() => Number, { nullable: true })
+  @Field(()  => Number, { nullable: true })
   @prop({ default: Date.now() })
   createdOn: number;
 
-  @Field(() => Number, { nullable: true })
+  @Field(()  => Number, { nullable: true })
   @prop({ default: Date.now() })
   updatedOn: number;
 
-  @Field(()=> String)
+  @Field(() => String)
   @prop({required: true})
   userId: string;
 
-  @Field(()=> Boolean)
+  @Field(() => Boolean)
   @prop({default: false})
   isPinned: string;
 
-  @Field(()=> [String], {nullable: true})
+  @Field(() => [Tag],{defaultValue:[]})
   @prop()
-  tags: [string]
+  tags: Tag[]
 
-  @Field(()=> String)
+  @Field(() => String)
   @prop({required: true})
   hexCode: string;
 
@@ -69,8 +71,9 @@ export class CreateNoteInput {
   @Field(()=> Boolean)
   isPinned: string;
 
-  @Field(()=> [String],{nullable: true})
-  tags: [string];
+
+  @Field(()=> [CreateTagInput],{nullable: true})
+  tags: CreateTagInput[];
 
   @Field(()=> String)
   hexCode: string;
@@ -78,7 +81,7 @@ export class CreateNoteInput {
 }
 
 @InputType()
-export class DeleteNoteInput{
+export class DeleteNoteInput {
   @Field(() => String)
   id: string;
 }
