@@ -34,7 +34,7 @@ export class Note {
 
   @Field(() => Boolean, {nullable: true})
   @prop({default: false})
-  isPinned: string;
+  isPinned: boolean;
 
   @Field(() => [Tag],{defaultValue:[]})
   @prop()
