@@ -6,7 +6,7 @@ import {
     index
   } from '@typegoose/typegoose';
   import { IsEmail, MaxLength, MinLength } from 'class-validator';
-  import { Field, InputType, ObjectType } from 'type-graphql';
+  import { Field, InputType, ObjectType, ID } from 'type-graphql';
   import bcrypt from 'bcrypt';
   import { AsQueryMethod, ReturnModelType } from '@typegoose/typegoose/lib/types';
   
@@ -34,7 +34,8 @@ import {
   @ObjectType()
   export class User {
 
-    readonly _id: string;
+    @Field(()=> ID)
+    _id: string;
 
     @Field(() => String)
     @prop({ required: true })
