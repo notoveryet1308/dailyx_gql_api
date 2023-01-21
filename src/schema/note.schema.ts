@@ -32,7 +32,7 @@ export class Note {
   @prop({required: true})
   userId: string;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, {nullable: true})
   @prop({default: false})
   isPinned: string;
 
