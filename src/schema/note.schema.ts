@@ -65,11 +65,9 @@ export class CreateNoteInput {
   @Field(() => Number, { nullable: true })
   updatedOn: number;
 
-  @Field(()=> String)
-  userId: string;
 
   @Field(()=> Boolean)
-  isPinned: string;
+  isPinned: boolean;
 
 
   @Field(()=> [CreateTagInput],{nullable: true})
