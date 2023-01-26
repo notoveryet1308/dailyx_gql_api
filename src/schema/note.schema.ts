@@ -16,7 +16,7 @@ export class Note {
   @prop()
   title: string;
   
-  @Field(()  => String)
+  @Field(()  => String, { nullable: true })
   @prop()
   description: string;
 
@@ -56,7 +56,7 @@ export class CreateNoteInput {
   @Field(() => String, { nullable: true })
   title: string;
   
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   description: string;
 
   @Field(() => Number, { nullable: true })
