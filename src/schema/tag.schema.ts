@@ -19,6 +19,7 @@ export class Tag {
   value: string;
 
   @Field(()=> String)
+  @prop()
   userId: string;
 
 }
