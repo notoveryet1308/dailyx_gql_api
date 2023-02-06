@@ -38,6 +38,8 @@ class LinkPreviewDataService {
       
         const { error, result } = await ogs({ url: input.url });
 
+        console.log({result})
+
         if(error){
           throw new ApolloError('Error in generating link preview data')
         }

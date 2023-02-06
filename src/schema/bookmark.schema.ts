@@ -27,7 +27,7 @@ export class Bookmark {
     @prop()
     ogUrl: string;
     
-    @Field(()=> String)
+    @Field(()=> String, { nullable: true })
     @prop()
     ogSiteName: string;
 
@@ -47,19 +47,19 @@ export class Bookmark {
 @ObjectType()
 export class GenerateLinkData {
  
-  @Field(() => String)
+  @Field(() => String,{nullable: true})
   ogImg?: string;
 
-  @Field(() => String)
+  @Field(() => String, {nullable: true})
   ogTitle?: string;
 
-  @Field(() => String)
+  @Field(() => String, {nullable: true})
   ogUrl?: string;
 
-  @Field(() => String)
+  @Field(() => String, {nullable: true})
   ogSiteName: string;
 
-  @Field(() => String)
+  @Field(() => String, {nullable: true})
   ogDescription?: string;
   
 }

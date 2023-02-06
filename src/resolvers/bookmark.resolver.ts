@@ -1,6 +1,6 @@
 import { Arg, Mutation, Query, Resolver, Ctx } from 'type-graphql';
 
-import LinkPreviewDataService from '../service/linkPreviewData.service';
+import LinkPreviewDataService from '../service/boomark.service';
 import {Bookmark, CreateBookmarkInput, DeleteBookmarkInput, GenerateLinkPreviewData, GenerateLinkData} from '../schema/bookmark.schema'
 import { ContextType } from '../type/context';
 
