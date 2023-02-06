@@ -78,7 +78,7 @@ export class CreateBookmarkInput {
   @Field(() => String)
   ogUrl: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   ogSiteName: string;
 
   @Field(() => String, { nullable: true })
