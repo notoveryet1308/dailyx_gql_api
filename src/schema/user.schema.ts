@@ -51,19 +51,15 @@ import {
   
     @Field(() => String, { nullable: true })
     @prop()
-    middleName: string;
-  
-    @Field(() => String, { nullable: true })
-    @prop()
-    lastName: string;
-  
-    @Field(() => String, { nullable: true })
-    @prop()
     profession: string;
   
     @Field(() => String, { nullable: true })
     @prop()
     avatar: string;
+
+    @Field(() => [String], { defaultValue:[] })
+    @prop()
+    teamMember: [string]
   }
 
   @ObjectType()
@@ -110,5 +106,13 @@ import {
     password: string;
   }
   
+
+  @InputType()
+  export class CreateTeamInput {
+    @IsEmail()
+    @Field(() => String)
+    email: string;
+  }
+
   export const UserModel = getModelForClass<typeof User, QueryHelpers>(User);
   
