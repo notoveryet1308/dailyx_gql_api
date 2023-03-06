@@ -43,9 +43,6 @@ export class CreateProjectInput {
     @Field(() => String)
     description: string;
 
-    @Field(()=> User)
-    owner: User;
-
     @Field(()=> String)
     projectCode: string
 
