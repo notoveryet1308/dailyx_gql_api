@@ -1,134 +1,177 @@
 import { Field, ID, InputType, ObjectType } from 'type-graphql';
 import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Tag, CreateTagInput } from './tag.schema';
-import { User } from './user.schema';
-import {Project} from './project.schema'
+import { CreateUserInput, User } from './user.schema';
+import { Project } from './project.schema';
 import { TicketComment } from './ticketComment.schema';
 
 @ObjectType()
 export class Ticket {
-    readonly _id: string;
+  readonly _id: string;
 
-    @Field(() => ID)
-    @prop()
-    id: string;
+  @Field(() => ID)
+  @prop()
+  id: string;
 
-    @Field(() => String)
-    @prop()
-    summary: string;
+  @Field(() => String)
+  @prop()
+  summary: string;
 
-    @Field(() => String)
-    @prop()
-    description: string;
+  @Field(() => String)
+  @prop()
+  description: string;
 
-    @Field(()=> User)
-    @prop()
-    reporter: User;
+  @Field(() => User)
+  @prop()
+  reporter: User;
 
-    @Field(()=> String)
-    @prop()
-    projectId: string;
+  @Field(() => String)
+  @prop()
+  projectId: string;
 
-    @Field(()=> Boolean)
-    @prop()
-    isDraft: boolean
-    
-    @Field(()=> User,  { defaultValue:'UNASSIGNED' })
-    @prop()
-    assignee: User;
+  @Field(() => Boolean)
+  @prop()
+  isDraft: boolean;
 
-    @Field(()=> [Number, Number], {nullable: true})
-    @prop()
-    sprintDate: [Number, Number]
-    
-    @Field(()=> String)
-    @prop()
-    issueType: string
+  @Field(() => User, { defaultValue: 'UNASSIGNED' })
+  @prop()
+  assignee: User;
 
-    @Field(()=> Number)
-    @prop()
-    created: Number
+  @Field(() => [Number, Number], { nullable: true })
+  @prop()
+  sprintDate: [Number, Number];
 
-    @Field(()=> Number)
-    @prop()
-    updated: Number
+  @Field(() => String)
+  @prop()
+  issueType: string;
 
-    @Field(() => [Tag],{defaultValue:[]})
-    @prop()
-    tags: Tag[]
+  @Field(() => Number)
+  @prop()
+  created: Number;
 
-    @Field(()=> String)
-    @prop()
-    priority: string
+  @Field(() => Number)
+  @prop()
+  updated: Number;
 
-    @Field(()=> Number)
-    @prop()
-    ticketNumber: number;
+  @Field(() => [Tag], { defaultValue: [] })
+  @prop()
+  tags: Tag[];
 
-    @Field(()=> String)
-    @prop()
-    status: string;
+  @Field(() => String)
+  @prop()
+  priority: string;
 
-    @Field(()=> Project)
-    project: Project;
+  @Field(() => Number)
+  @prop()
+  ticketNumber: number;
 
-    @Field(()=> [TicketComment], {defaultValue:[]})
-    comments:[TicketComment];
+  @Field(() => String)
+  @prop()
+  status: string;
+
+  @Field(() => String)
+  @prop()
+  ticketKey: string;
+
+  @Field(() => User, { nullable: true })
+  @prop()
+  lastUpdatedBy: User;
+
+  @Field(() => Project)
+  project: Project;
+
+  @Field(() => [TicketComment], { defaultValue: [] })
+  comments: [TicketComment];
 }
-
 
 @InputType()
 export class CreateTicketInput {
-    @Field(() => ID)
-    id: string;
+  @Field(() => ID)
+  id: string;
 
-    @Field(() => String)
-    summary: string;
+  @Field(() => String)
+  summary: string;
 
-    @Field(() => String)
-    description: string;
+  @Field(() => String)
+  description: string;
 
-    @Field(()=> User)
-    reporter: User;
+  @Field(() => String)
+  projectId: string;
 
-    @Field(()=> String)
-    projectId: string;
+  @Field(() => Boolean)
+  isDraft: boolean;
 
-    @Field(()=> Boolean)
-    isDraft: boolean
-    
-    @Field(()=> User, {nullable: true})
-    assignee: User;
+  @Field(() => CreateUserInput, { nullable: true })
+  assignee: CreateUserInput;
 
-    @Field(()=> [Number, Number], {nullable: true})
-    sprintDate: [Number, Number]
-    
-    @Field(()=> String)
-    issueType: string
+  @Field(() => [Number, Number], { nullable: true })
+  sprintDate: [Number, Number];
 
-    @Field(()=> Number)
-    created: Number
+  @Field(() => String)
+  issueType: string;
 
-    @Field(()=> Number)
-    updated: Number
+  @Field(() => Number)
+  created: Number;
 
-    @Field(()=> [CreateTagInput],{nullable: true})
-    tags: CreateTagInput[];
+  @Field(() => Number)
+  updated: Number;
 
-    @Field(()=> String)
-    priority: string
+  @Field(() => [CreateTagInput], { nullable: true })
+  tags: CreateTagInput[];
 
-    @Field(()=> Number)
-    ticketNumber: number;
+  @Field(() => String)
+  priority: string;
 
-    @Field(()=> String)
-    status: string;
+  @Field(() => String)
+  status: string;
+}
+
+@InputType()
+export class UpdateTicketInput {
+  @Field(() => ID)
+  id: string;
+
+  @Field(() => String)
+  summary: string;
+
+  @Field(() => String)
+  description: string;
+
+  @Field(() => User, { nullable: true })
+  assignee: User;
+
+  @Field(() => [Number, Number], { nullable: true })
+  sprintDate: [Number, Number];
+
+  @Field(() => Number)
+  updated: Number;
+
+  @Field(() => [CreateTagInput], { nullable: true })
+  tags: CreateTagInput[];
+
+  @Field(() => String)
+  priority: string;
+
+  @Field(() => String)
+  status: string;
 }
 
 @InputType()
 export class DeleteTicketInput {
   @Field(() => String)
   id: string;
+}
+
+@InputType()
+export class GetTicketByKeyAndNumberInput {
+  @Field(() => String)
+  ticketKey: string;
+
+  @Field(() => Number)
+  ticketNumber: number;
+
+  @Field(() => String)
+  projectId: string;
 }
 
 export const TicketModel = getModelForClass(Ticket);

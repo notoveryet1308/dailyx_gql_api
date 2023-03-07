@@ -4,47 +4,60 @@ import { User } from './user.schema';
 
 @ObjectType()
 export class TicketComment {
-    readonly _id: string;
+  readonly _id: string;
 
-    @Field(() => ID)
-    @prop()
-    id: string;
+  @Field(() => ID)
+  @prop()
+  id: string;
 
-    @Field(() => String)
-    @prop()
-    description: string;
+  @Field(() => String)
+  @prop()
+  description: string;
 
-    @Field(()=> User)
-    @prop()
-    owner: User;
+  @Field(() => User)
+  @prop()
+  owner: User;
 
-    @Field(()=> String)
-    @prop()
-    ticketId: string;
+  @Field(() => String)
+  @prop()
+  ticketId: string;
 
-    @Field(()=> [String],{nullable: true})
-    @prop()
-    reaction: [string] 
- 
-
+  @Field(() => [String], { nullable: true })
+  @prop()
+  reaction: [string];
 }
 
 @InputType()
 export class CreateTicketCommentInput {
-    @Field(() => ID)
-    id: string;
+  @Field(() => ID)
+  id: string;
 
-    @Field(() => String)
-    description: string;
+  @Field(() => String)
+  description: string;
 
-    @Field(()=> User)
-    owner: User;
+  @Field(() => String)
+  ticketId: string;
 
-    @Field(()=> String)
-    ticketId: string;
-
-    @Field(()=> [String],{nullable: true})
-    reaction: [string] 
+  @Field(() => [String], { nullable: true })
+  reaction: [string];
 }
 
-export const TicketCommentModel = getModelForClass(TicketComment)
+@InputType()
+export class UpdateTicketCommentInput {
+  @Field(() => ID)
+  id: string;
+
+  @Field(() => String)
+  description: string;
+
+  @Field(() => [String], { nullable: true })
+  reaction: [string];
+}
+
+@InputType()
+export class TicketCommentIdInput {
+  @Field(() => ID)
+  id: string;
+}
+
+export const TicketCommentModel = getModelForClass(TicketComment);

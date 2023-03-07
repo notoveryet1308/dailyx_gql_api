@@ -10,7 +10,7 @@ import {
 } from 'apollo-server-core';
 import cors from 'cors';
 
-import { User } from "./schema/user.schema";
+import { User, UserModel } from "./schema/user.schema";
 import { ContextType } from './type/context';
 import { resolvers } from './resolvers';
 import { connectToMongoDB } from './utils/mongo';
@@ -40,7 +40,7 @@ async function init() {
         const token = ctx.req.headers.authorization?.split(' ')[1]
         if (token) {
           const user = verifyJwt<User>(token);
-          context.user = user;
+          context.user = user
         }
       return context;
     },

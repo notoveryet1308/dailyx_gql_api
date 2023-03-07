@@ -1,5 +1,11 @@
 import { Arg, Mutation, Query, Resolver, Ctx } from 'type-graphql';
-import { User, CreateUserInput, LoginInput, AuthPayload } from '../schema/user.schema';
+import {
+  User,
+  CreateUserInput,
+  LoginInput,
+  AuthPayload,
+  CreateTeamInput
+} from '../schema/user.schema';
 import { UserService } from '../service/user.service';
 import { ContextType } from '../type/context';
 
@@ -19,8 +25,16 @@ export class UserResolver {
     return this.userService.login(input, context);
   }
 
-  @Query(() => User, {nullable: true})
+  @Query(() => User, { nullable: true })
   getCurrentLoggedInUser(@Ctx() context: ContextType) {
     return context.user;
+  }
+
+  @Mutation(() => User)
+  addTeamMember(
+    @Arg('input') input: CreateTeamInput,
+    @Ctx() context: ContextType
+  ) {
+    return this.userService.addTeamMember(input, context);
   }
 }
