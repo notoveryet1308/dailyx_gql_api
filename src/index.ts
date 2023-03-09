@@ -20,7 +20,7 @@ dotenv.config();
 
 const whitelist =[
   'https://notoveryet1308-sturdy-space-spoon-x99pwp6j4jq369v6.github.dev',
-  'https://dailyxtool.netlify.app'
+  'https://eeccy.netlify.app/'
 ]
 
 async function init() {
