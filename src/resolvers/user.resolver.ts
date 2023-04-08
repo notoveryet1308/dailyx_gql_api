@@ -32,7 +32,7 @@ export class UserResolver {
 
   @Query(() => [User], { nullable: true, defaultValue: [] })
   getMyTeamMemberDetail(@Ctx() context: ContextType) {
-    return this.getMyTeamMemberDetail(context);
+    return this.userService.getMyTeamMember(context);
   }
 
   @Mutation(() => User)
