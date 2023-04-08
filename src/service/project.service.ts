@@ -46,7 +46,10 @@ class ProjectService {
     }
   }
 
-  async getAllTeamMember(input: ProjectIdInput, context: ContextType) {
+  async getAllTeamMemberByProjectId(
+    input: ProjectIdInput,
+    context: ContextType
+  ) {
     try {
       const user = context.user;
       if (user?._id) {

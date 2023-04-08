@@ -65,4 +65,26 @@ export class UserService {
       throw new ApolloError(error);
     }
   }
+
+  async getMyTeamMember(context: ContextType) {
+    try {
+      const user = context?.user;
+      const getUpdatedUserData = await UserModel.findOne({ _id: user._id });
+
+      if (!getUpdatedUserData?.email) {
+        throw new ApolloError(`Invalid user detail.`);
+      }
+
+      const teamMembersEmail = getUpdatedUserData.teamMember;
+      const allUsers = await UserModel.find({});
+
+      const teamDetail = allUsers.filter((d) =>
+        teamMembersEmail.includes(d.email)
+      );
+
+      return teamDetail;
+    } catch (error) {
+      throw new ApolloError(error);
+    }
+  }
 }

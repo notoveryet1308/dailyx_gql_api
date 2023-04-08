@@ -40,7 +40,7 @@ export default class ProjectResolver {
     @Arg('input') input: ProjectIdInput,
     @Ctx() context: ContextType
   ) {
-    return this.projectService.getAllTeamMember(input, context);
+    return this.projectService.getAllTeamMemberByProjectId(input, context);
   }
 
   @Query(() => [String])

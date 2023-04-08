@@ -30,6 +30,11 @@ export class UserResolver {
     return context.user;
   }
 
+  @Query(() => [User], { nullable: true, defaultValue: [] })
+  getMyTeamMemberDetail(@Ctx() context: ContextType) {
+    return this.getMyTeamMemberDetail(context);
+  }
+
   @Mutation(() => User)
   addTeamMember(
     @Arg('input') input: CreateTeamInput,
