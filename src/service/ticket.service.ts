@@ -23,11 +23,14 @@ class TicketService {
         if (!project) {
           throw new ApolloError(`Invalid project id: ${input.projectId}`);
         }
+        let userAssigned = await UserModel.findOne({ _id: input.assigneeId });
+
         const newTicket = await TicketModel.create({
           ...input,
           reporter: updatedUserData,
           ticketKey: project.projectKey,
-          ticketNumber: allTickets.length + 1
+          ticketNumber: allTickets.length + 1,
+          assignee: userAssigned
         });
         return newTicket;
       } else {

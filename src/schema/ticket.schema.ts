@@ -1,9 +1,10 @@
 import { Field, ID, InputType, ObjectType } from 'type-graphql';
 import { getModelForClass, prop } from '@typegoose/typegoose';
 import { Tag, CreateTagInput } from './tag.schema';
-import { CreateUserInput, User } from './user.schema';
+import { User } from './user.schema';
 import { Project } from './project.schema';
 import { TicketComment } from './ticketComment.schema';
+import { IsEmail, MaxLength, MinLength } from 'class-validator';
 
 @ObjectType()
 export class Ticket {
@@ -17,7 +18,7 @@ export class Ticket {
   @prop()
   summary: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true, defaultValue: '' })
   @prop()
   description: string;
 
@@ -84,6 +85,28 @@ export class Ticket {
   comments: [TicketComment];
 }
 
+// @InputType()
+// export class CreateTicketAssigneeInput {
+//   @Field(() => ID)
+//   _id: string;
+
+//   @IsEmail()
+//   @Field(() => String)
+//   email: string;
+
+//   @Field(() => String)
+//   name: string;
+
+//   @Field(() => String, { nullable: true })
+//   profession: string;
+
+//   @Field(() => String, { nullable: true })
+//   avatar: string;
+
+//   @Field(() => [String], { defaultValue: [] })
+//   teamMember: [string];
+// }
+
 @InputType()
 export class CreateTicketInput {
   @Field(() => ID)
@@ -101,8 +124,8 @@ export class CreateTicketInput {
   @Field(() => Boolean)
   isDraft: boolean;
 
-  @Field(() => CreateUserInput, { nullable: true })
-  assignee: CreateUserInput;
+  @Field(() => String, { nullable: true })
+  assigneeId: String;
 
   @Field(() => [Number, Number], { nullable: true })
   sprintDate: [Number, Number];
