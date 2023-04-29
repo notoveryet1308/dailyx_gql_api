@@ -86,6 +86,29 @@ class TicketService {
       }
     } catch (error) {}
   }
+
+  async getAllTickets(context: ContextType) {
+    const user = context.user;
+    try {
+      const updatedUserData = await UserModel.findById(user._id);
+      const allTickets = await TicketModel.find({});
+
+      let authorizedTicket = [];
+      if (allTickets.length) {
+        authorizedTicket = allTickets.map((data) => {
+          if (data.reporter.email === updatedUserData.email) {
+            return data;
+          } else if (data.reporter.teamMember.includes(updatedUserData.email)) {
+            return data;
+          }
+        });
+      }
+
+      return authorizedTicket;
+    } catch (error) {
+      throw new ApolloError('User does not exists!!');
+    }
+  }
 }
 
 export default TicketService;

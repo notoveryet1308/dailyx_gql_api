@@ -160,8 +160,8 @@ export class UpdateTicketInput {
   @Field(() => String)
   description: string;
 
-  @Field(() => User, { nullable: true })
-  assignee: User;
+  @Field(() => String, { nullable: true })
+  assigneeId: String;
 
   @Field(() => [Number, Number], { nullable: true })
   sprintDate: [Number, Number];
