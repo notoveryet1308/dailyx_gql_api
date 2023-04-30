@@ -95,7 +95,7 @@ class TicketService {
 
       let authorizedTicket = [];
       if (allTickets.length) {
-        authorizedTicket = allTickets.map((data) => {
+        authorizedTicket = allTickets.filter((data) => {
           if (data.reporter.email === updatedUserData.email) {
             return data;
           } else if (data.reporter.teamMember.includes(updatedUserData.email)) {
@@ -103,6 +103,7 @@ class TicketService {
           }
         });
       }
+      console.log({ authorizedTicket });
 
       return authorizedTicket;
     } catch (error) {
