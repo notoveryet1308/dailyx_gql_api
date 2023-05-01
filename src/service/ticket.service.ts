@@ -2,7 +2,7 @@ import {
   CreateTicketInput,
   TicketModel,
   UpdateTicketInput,
-  GetTicketByKeyAndNumberInput
+  GetTicketByIdInput
 } from '../schema/ticket.schema';
 import { ContextType } from '../type/context';
 import { ApolloError } from 'apollo-server';
@@ -56,31 +56,27 @@ class TicketService {
     } catch (error) {}
   }
 
-  async getTicketByKeyAndNumber(
-    input: GetTicketByKeyAndNumberInput,
-    context: ContextType
-  ) {
+  async getTicketById(input: GetTicketByIdInput, context: ContextType) {
     try {
       const user = context.user;
       if (user?._id) {
         const project = await ProjectModel.findOne({ id: input.projectId });
 
         if (
-          !project.owner.teamMember.includes(user.email) ||
-          project.owner._id !== user._id
+          project.owner.teamMember.includes(user.email) ||
+          project.owner._id === user._id
         ) {
-          throw new ApolloError('You do not have access to this page');
+          const targetTicket = await TicketModel.findOne({
+            id: input.id
+          });
+          // const comments = await TicketCommentModel.find({
+          //   ticketId: input.id
+          // });
+
+          return targetTicket;
         }
 
-        const targetTicket = await TicketModel.findOne({
-          ticketKey: input.ticketKey,
-          ticketNumber: input.ticketNumber
-        });
-        const comments = await TicketCommentModel.find({
-          ticketId: targetTicket.id
-        });
-
-        return { ...targetTicket, project, comments };
+        throw new ApolloError('You do not have access to this page');
       } else {
         throw new ApolloError('User does not exists!!');
       }
@@ -103,7 +99,6 @@ class TicketService {
           }
         });
       }
-      console.log({ authorizedTicket });
 
       return authorizedTicket;
     } catch (error) {

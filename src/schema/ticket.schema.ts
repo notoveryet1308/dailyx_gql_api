@@ -186,12 +186,9 @@ export class DeleteTicketInput {
 }
 
 @InputType()
-export class GetTicketByKeyAndNumberInput {
+export class GetTicketByIdInput {
   @Field(() => String)
-  ticketKey: string;
-
-  @Field(() => Number)
-  ticketNumber: number;
+  id: string;
 
   @Field(() => String)
   projectId: string;

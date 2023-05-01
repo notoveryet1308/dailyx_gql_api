@@ -3,7 +3,7 @@ import {
   CreateTicketInput,
   Ticket,
   UpdateTicketInput,
-  GetTicketByKeyAndNumberInput
+  GetTicketByIdInput
 } from '../schema/ticket.schema';
 import TicketService from '../service/ticket.service';
 import { ContextType } from '../type/context';
@@ -30,12 +30,12 @@ class TicketResolver {
     return this.ticketService.updateTicket(input, context);
   }
 
-  @Query(() => Ticket)
-  getTicketByKeyAndNumber(
-    @Arg('input') input: GetTicketByKeyAndNumberInput,
+  @Query(() => Ticket, { nullable: true })
+  getTicketById(
+    @Arg('input') input: GetTicketByIdInput,
     @Ctx() context: ContextType
   ) {
-    return this.ticketService.getTicketByKeyAndNumber(input, context);
+    return this.ticketService.getTicketById(input, context);
   }
 
   @Query(() => [Ticket])

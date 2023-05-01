@@ -134,7 +134,7 @@ class ProjectService {
         const projectNames = allProject
           .filter((data) => data.owner._id.valueOf() === user._id)
           .map((d) => d.name);
-        console.log({ projectNames });
+
         return projectNames;
       } else {
         throw new ApolloError('User does not exists!!');
