@@ -64,7 +64,7 @@ class TicketService {
 
         if (
           project.owner.teamMember.includes(user.email) ||
-          project.owner._id === user._id
+          project.owner._id.valueOf() === user._id
         ) {
           const targetTicket = await TicketModel.findOne({
             id: input.id
