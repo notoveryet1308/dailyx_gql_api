@@ -16,11 +16,7 @@ import { verifyJwt } from './utils/jwt';
 
 dotenv.config();
 
-const whitelist = [
-  'https://notoveryet1308-sturdy-space-spoon-x99pwp6j4jq369v6.github.dev',
-  'https://eeccy.netlify.app/',
-  'http://localhost:8080/'
-];
+const whitelist = ['https://eeccy.netlify.app/', 'http://localhost:8080/'];
 
 async function init() {
   const schema = await buildSchema({

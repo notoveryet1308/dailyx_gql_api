@@ -60,15 +60,17 @@ class TicketService {
     try {
       const user = context.user;
       if (user?._id) {
-        const project = await ProjectModel.findOne({ id: input.projectId });
+        const targetTicket = await TicketModel.findOne({
+          id: input.id
+        });
+        const project = await ProjectModel.findOne({
+          id: targetTicket.projectId
+        });
 
         if (
           project.owner.teamMember.includes(user.email) ||
           project.owner._id.valueOf() === user._id
         ) {
-          const targetTicket = await TicketModel.findOne({
-            id: input.id
-          });
           // const comments = await TicketCommentModel.find({
           //   ticketId: input.id
           // });

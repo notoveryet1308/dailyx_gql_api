@@ -139,8 +139,8 @@ export class CreateTicketInput {
   @Field(() => Number)
   updated: Number;
 
-  @Field(() => [CreateTagInput], { nullable: true })
-  tags: CreateTagInput[];
+  // @Field(() => [CreateTagInput], { nullable: true })
+  // tags: CreateTagInput[];
 
   @Field(() => String)
   priority: string;
@@ -163,14 +163,14 @@ export class UpdateTicketInput {
   @Field(() => String, { nullable: true })
   assigneeId: String;
 
-  @Field(() => [Number, Number], { nullable: true })
-  sprintDate: [Number, Number];
+  // @Field(() => [Number, Number], { nullable: true })
+  // sprintDate: [Number, Number];
 
   @Field(() => Number)
   updated: Number;
 
-  @Field(() => [CreateTagInput], { nullable: true })
-  tags: CreateTagInput[];
+  // @Field(() => [CreateTagInput], { nullable: true })
+  // tags: CreateTagInput[];
 
   @Field(() => String)
   priority: string;
@@ -189,9 +189,6 @@ export class DeleteTicketInput {
 export class GetTicketByIdInput {
   @Field(() => String)
   id: string;
-
-  @Field(() => String)
-  projectId: string;
 }
 
 export const TicketModel = getModelForClass(Ticket);
