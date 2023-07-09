@@ -2,7 +2,8 @@ import { Arg, Mutation, Query, Resolver, Ctx } from 'type-graphql';
 import {
   CreateTicketInput,
   Ticket,
-  UpdateTicketInput,
+  UpdateDropdownTicketInputs,
+  UpdateTextFieldTicketInput,
   GetTicketByIdInput
 } from '../schema/ticket.schema';
 import TicketService from '../service/ticket.service';
@@ -23,11 +24,19 @@ class TicketResolver {
   }
 
   @Mutation(() => Ticket)
-  updateTicket(
-    @Arg('input') input: UpdateTicketInput,
+  updateTextFiledTicket(
+    @Arg('input') input: UpdateTextFieldTicketInput,
     @Ctx() context: ContextType
   ) {
-    return this.ticketService.updateTicket(input, context);
+    return this.ticketService.updateTextFiledTicket(input, context);
+  }
+
+  @Mutation(() => Ticket)
+  updateDropdownFiledTicket(
+    @Arg('input') input: UpdateDropdownTicketInputs,
+    @Ctx() context: ContextType
+  ) {
+    return this.ticketService.updateDropdownFiledTicket(input, context);
   }
 
   @Query(() => Ticket, { nullable: true })
