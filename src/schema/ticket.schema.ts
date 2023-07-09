@@ -85,28 +85,6 @@ export class Ticket {
   comments: [TicketComment];
 }
 
-// @InputType()
-// export class CreateTicketAssigneeInput {
-//   @Field(() => ID)
-//   _id: string;
-
-//   @IsEmail()
-//   @Field(() => String)
-//   email: string;
-
-//   @Field(() => String)
-//   name: string;
-
-//   @Field(() => String, { nullable: true })
-//   profession: string;
-
-//   @Field(() => String, { nullable: true })
-//   avatar: string;
-
-//   @Field(() => [String], { defaultValue: [] })
-//   teamMember: [string];
-// }
-
 @InputType()
 export class CreateTicketInput {
   @Field(() => ID)
@@ -150,7 +128,7 @@ export class CreateTicketInput {
 }
 
 @InputType()
-export class UpdateTicketInput {
+export class UpdateTextFieldTicketInput {
   @Field(() => ID)
   id: string;
 
@@ -160,22 +138,22 @@ export class UpdateTicketInput {
   @Field(() => String)
   description: string;
 
+  @Field(() => Number)
+  updated: Number;
+}
+
+@InputType()
+export class UpdateDropdownTicketInputs {
+  @Field(() => ID)
+  id: string;
+
   @Field(() => String, { nullable: true })
   assigneeId: String;
 
-  // @Field(() => [Number, Number], { nullable: true })
-  // sprintDate: [Number, Number];
-
-  @Field(() => Number)
-  updated: Number;
-
-  // @Field(() => [CreateTagInput], { nullable: true })
-  // tags: CreateTagInput[];
-
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   priority: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   status: string;
 }
 
@@ -188,7 +166,7 @@ export class DeleteTicketInput {
 @InputType()
 export class GetTicketByIdInput {
   @Field(() => String)
-  id: string;
+  ticketKey: string;
 }
 
 export const TicketModel = getModelForClass(Ticket);

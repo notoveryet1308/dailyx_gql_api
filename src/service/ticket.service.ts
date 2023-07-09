@@ -1,7 +1,8 @@
 import {
   CreateTicketInput,
   TicketModel,
-  UpdateTicketInput,
+  UpdateTextFieldTicketInput,
+  UpdateDropdownTicketInputs,
   GetTicketByIdInput
 } from '../schema/ticket.schema';
 import { ContextType } from '../type/context';
@@ -20,6 +21,8 @@ class TicketService {
         const allTickets = await TicketModel.find({
           projectId: input.projectId
         });
+        const currentTicketCount = allTickets.length + 1;
+
         if (!project) {
           throw new ApolloError(`Invalid project id: ${input.projectId}`);
         }
@@ -28,8 +31,8 @@ class TicketService {
         const newTicket = await TicketModel.create({
           ...input,
           reporter: updatedUserData,
-          ticketKey: project.projectKey,
-          ticketNumber: allTickets.length + 1,
+          ticketKey: `${project.projectKey}-${currentTicketCount}`,
+          ticketNumber: currentTicketCount,
           assignee: userAssigned
         });
         return newTicket;
@@ -41,15 +44,49 @@ class TicketService {
     }
   }
 
-  async updateTicket(input: UpdateTicketInput, context: ContextType) {
+  async updateTextFiledTicket(
+    input: UpdateTextFieldTicketInput,
+    context: ContextType
+  ) {
     try {
       const user = context.user;
       if (user?._id) {
         const updatedUserData = await UserModel.findById(user._id);
         let targetTicket = await TicketModel.findOneAndUpdate(
           { id: input.id },
-          { ...UpdateTicketInput, lastUpdatedBy: updatedUserData }
+          { ...input, lastUpdatedBy: updatedUserData }
         );
+
+        targetTicket = await TicketModel.findOne({ id: input.id });
+        return targetTicket;
+      }
+    } catch (error) {}
+  }
+
+  async updateDropdownFiledTicket(
+    input: UpdateDropdownTicketInputs,
+    context: ContextType
+  ) {
+    try {
+      const user = context.user;
+      if (user?._id) {
+        let assignee = {};
+        let targetTicket;
+        if (input.assigneeId) {
+          assignee = await UserModel.findById(input.assigneeId);
+          targetTicket = await TicketModel.findOneAndUpdate(
+            { id: input.id },
+            { assignee }
+          );
+        }
+
+        if (input.priority || input.status) {
+          targetTicket = await TicketModel.findOneAndUpdate(
+            { id: input.id },
+            { ...input }
+          );
+        }
+
         targetTicket = await TicketModel.findOne({ id: input.id });
         return targetTicket;
       }
@@ -61,7 +98,7 @@ class TicketService {
       const user = context.user;
       if (user?._id) {
         const targetTicket = await TicketModel.findOne({
-          id: input.id
+          ticketKey: input.ticketKey
         });
         const project = await ProjectModel.findOne({
           id: targetTicket.projectId
@@ -71,10 +108,6 @@ class TicketService {
           project.owner.teamMember.includes(user.email) ||
           project.owner._id.valueOf() === user._id
         ) {
-          // const comments = await TicketCommentModel.find({
-          //   ticketId: input.id
-          // });
-
           return targetTicket;
         }
 
