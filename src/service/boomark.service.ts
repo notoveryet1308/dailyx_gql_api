@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-
+import ogs from 'open-graph-scraper';
 import { ApolloError } from 'apollo-server';
 import {
   BookmarkModel,
@@ -102,26 +102,6 @@ const getPreviewData = async (url) => {
 };
 
 class LinkPreviewDataService {
-  // async createLinkPreviewData(
-  //   input: UpdateBookmarkInput,
-  //   context: ContextType
-  // ) {
-  //   try {
-  //     const user = context.user;
-  //     if (user?._id) {
-  //       const linkPreviewData = await BookmarkModel.create({
-  //         ...input,
-  //         userId: user._id
-  //       });
-  //       return linkPreviewData;
-  //     } else {
-  //       throw new ApolloError('Error in creating link preview data');
-  //     }
-  //   } catch (e) {
-  //     throw new ApolloError(e);
-  //   }
-  // }
-
   async generateLinkPreviewData(
     input: GenerateLinkPreviewData,
     context: ContextType
@@ -134,6 +114,8 @@ class LinkPreviewDataService {
         throw new ApolloError('Action not allowed!!');
       }
 
+      const ogdata = await ogs({ url: input.url });
+
       const linkPreviewData = await BookmarkModel.create({
         ...previewData,
         ogUrl: input.url,
@@ -143,6 +125,7 @@ class LinkPreviewDataService {
         createdAt: Date.now(),
         updatedAt: Date.now()
       });
+      console.log({ ogdata });
 
       return linkPreviewData;
     } catch (error) {
